@@ -4,6 +4,8 @@ const kafka = new Kafka({
   brokers: ["localhost:29092"],
 });
 
+const sensorName = process.env.SENSOR_NAME
+
 const producer = async (leitura) => {
   const producer = kafka.producer();
   await producer.connect();
@@ -13,7 +15,7 @@ const producer = async (leitura) => {
       {
         value: leitura,
         timestamp: Date.now(),
-        key: "Sensor nível da água"
+        key: sensorName
       },
     ],
   });
@@ -24,4 +26,4 @@ setInterval(() => {
   producer(nivel.toString());
 }, 10000);
 
-console.log("Sensor nível da água UP")
+console.log( `${sensorName} UP`)

@@ -3,11 +3,15 @@ services:
   entrypoint:
     build: ./entrypoint
     network_mode: host
-    
+
   sensor-nivel-agua:
     build: ./sensor-nivel-agua
     network_mode: host
-
+    environment:
+      SENSOR_NAME: "Sensor nível de água 1"
+  
   sensor-temperatura:
     build: ./sensor-temperatura
     network_mode: host
+    environment:
+      SENSOR_NAME: "Sensor temperatura 1"
