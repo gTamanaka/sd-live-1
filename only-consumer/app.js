@@ -5,17 +5,17 @@ const kafka = new Kafka({
 })
 
 const start = async () =>{
-    console.log("UP")
     const consumer = kafka.consumer({ groupId: 'producer' })
     
     await consumer.connect()
-    await consumer.subscribe({ topic: 'test-topic'})
+    await consumer.subscribe({ topic: 'sensor'})
     
     await consumer.run({
         eachMessage: async ({ topic, partition, message }) => {
             console.log(message.value.toString())
         },
     })
+    console.log("Listen")
 }
 
 start()
