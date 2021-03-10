@@ -1,0 +1,13 @@
+version: '3'
+services:
+  entrypoint:
+    build: ./entrypoint
+    network_mode: host
+    
+  sensor-nivel-agua:
+    build: ./sensor-nivel-agua
+    network_mode: host
+
+  sensor-temperatura:
+    build: ./sensor-temperatura
+    network_mode: host

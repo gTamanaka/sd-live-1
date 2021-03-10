@@ -1,53 +1,52 @@
-const { Kafka } = require('kafkajs')
-const app = require('express')()
-var bodyParser = require('body-parser')
-
+const { Kafka } = require("kafkajs");
+const app = require("express")();
+var bodyParser = require("body-parser");
 
 const kafka = new Kafka({
-  clientId: 'my-app',
-  brokers: ['localhost:29092']
-})
+  clientId: "my-app",
+  brokers: ["localhost:29092"],
+});
 
-const consumer = async () =>{
-    const consumer = kafka.consumer({ groupId: 'test-group' })
-    
-    await consumer.connect()
-    await consumer.subscribe({ topic: 'sensor', fromBeginning: true })
-    
-    await consumer.run({
-        eachMessage: async ({ topic, partition, message }) => {
-            console.log(message.value.toString())
-        },
-    })
-}
+const consumer = async () => {
+  const consumer = kafka.consumer({ groupId: "sensor-group" });
 
-const producer = async (jogada) =>{
-    const producer = kafka.producer()
-    await producer.connect()
-    await producer.send({
-        topic: 'jogada',
-        messages: [
-            { value: jogada },
-        ],
-    })
-}
+  await consumer.connect();
+  await consumer.subscribe({ topic: "sensor", fromBeginning: true });
 
-app.use(bodyParser.urlencoded({ extended: false }))
-app.use(bodyParser.json())
+  await consumer.run({
+    eachMessage: async ({ topic, partition, message }) => {
+      console.log(
+        message.key.toString(),
+        message.value.toString(),
+        message.timestamp.toString()
+      );
+    },
+  });
+};
 
-app.post("/", async (req,res,next)=>{
-    try {
-        await producer(req.body.jogada)
-        return res.status(200).send("OK")
-    } catch (error) {
-        console.error(error)
-        return res.status(400).send("Kafka is down") //Não é necessariamente verdade
-    }
-})
+const producer = async () => {
+  const producer = kafka.producer();
+  await producer.connect();
+  await producer.send({
+    topic: "ping",
+    messages: [{ value: jogada }],
+  });
+};
 
-consumer()
-app.listen(3000, async ()=>{
+app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.json());
 
-    console.log("UP")
-   
-})
+app.post("/", async (req, res, next) => {
+  try {
+    await producer();
+    return res.status(200).send("OK");
+  } catch (error) {
+    console.error(error);
+    return res.status(400).send("Kafka is down"); //Não é necessariamente verdade
+  }
+});
+
+consumer();
+app.listen(3000, async () => {
+  console.log("UP");
+});
