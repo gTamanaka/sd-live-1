@@ -1,8 +1,9 @@
 FROM python:slim
 
-WORKDIR app
+WORKDIR /app
 
 COPY . .
 RUN pip install kafka-python
 
-ENTRYPOINT [ "python", "app.py" ]
+ENTRYPOINT [ "python", "-u"]
+CMD [ "app.py" ]

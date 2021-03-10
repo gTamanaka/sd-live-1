@@ -28,8 +28,10 @@ services:
     depends_on: 
       - zookeeper
       - kafka
-  # only-producer:
-    # build: ./only-producer
-    # depends_on: 
-    #   - zookeeper
-    #   - kafka
+      
+  only-producer:
+    build: ./only-producer
+    network_mode: host
+    depends_on: 
+      - zookeeper
+      - kafka
