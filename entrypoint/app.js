@@ -12,7 +12,7 @@ const consumer = async () =>{
     const consumer = kafka.consumer({ groupId: 'test-group' })
     
     await consumer.connect()
-    await consumer.subscribe({ topic: 'test-topic', fromBeginning: true })
+    await consumer.subscribe({ topic: 'sensor', fromBeginning: true })
     
     await consumer.run({
         eachMessage: async ({ topic, partition, message }) => {
@@ -45,6 +45,7 @@ app.post("/", async (req,res,next)=>{
     }
 })
 
+consumer()
 app.listen(3000, async ()=>{
 
     console.log("UP")
