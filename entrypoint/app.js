@@ -15,11 +15,12 @@ const consumer = async () => {
 
   await consumer.run({
     eachMessage: async ({ topic, partition, message }) => {
-      console.log(
-        message.key.toString(),
-        message.value.toString(),
-        message.timestamp.toString()
-      );
+      let sensorReading = {
+        nome: message.key.toString(),
+        timestamp: message.timestamp.toString(),
+        leitura: message.value.toString(),
+      };
+      console.log(sensorReading);
     },
   });
 };

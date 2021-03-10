@@ -8,10 +8,10 @@ services:
     build: ./sensor-nivel-agua
     network_mode: host
     environment:
-      SENSOR_NAME: "Sensor nível de água 1"
+      SENSOR_NAME: "Nível de água 1"
   
   sensor-temperatura:
     build: ./sensor-temperatura
     network_mode: host
     environment:
-      SENSOR_NAME: "Sensor temperatura 1"
+      SENSOR_NAME: "Temperatura 1"
