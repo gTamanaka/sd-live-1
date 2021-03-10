@@ -21,3 +21,15 @@ services:
       KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
     extra_hosts:
       - "moby:127.0.0.1"
+
+  only-consumer:
+    build: ./only-consumer
+    network_mode: host
+    depends_on: 
+      - zookeeper
+      - kafka
+  # only-producer:
+    # build: ./only-producer
+    # depends_on: 
+    #   - zookeeper
+    #   - kafka
